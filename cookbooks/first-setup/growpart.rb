@@ -1,9 +1,13 @@
 # Install cloud-utils-growpart for CentOS6
-package "cloud-utils-growpart" do
-  not_if 'rpm -q cloud-utils-growpart'
+
+execute 'extend-partition' do
+  user "root"
+  command "growpart /dev/vda 1"
+  action :nothing
 end
 
-#execute 'Extend root partition' do
-#  user "root"
-#  command "growpart /dev/vda 1"
-#end
+package "cloud-utils-growpart" do
+  not_if 'rpm -q cloud-utils-growpart'
+  action :install
+  notifies :run, 'execute[extend-partition]', :immediately
+end
