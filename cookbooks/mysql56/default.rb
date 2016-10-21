@@ -12,7 +12,20 @@ EOS
   only_if "yum repolist all | grep mysql"
 end
 
+remote_file "/etc/my.cnf" do
+  action :nothing
+  owner "root"
+  group "root"
+  mode "644"
+  source "templates/etc/my.cnf.erb"
+end
+
 package "mysql-community-server" do
   action :install
   not_if "rpm -q mysql-community-server"
+  notifies :create, 'remote_file[/etc/my.cnf]'
+end
+
+service "mysqld" do
+  action [:enable, :start]
 end
