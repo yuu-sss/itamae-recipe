@@ -4,8 +4,22 @@ execute "remi-repository" do
   not_if "yum repolist all | grep remi"
 end
 
+remote_file "/etc/php.ini" do
+  action :nothing
+  owner "root"
+  group "root"
+  mode "644"
+  source "templates/etc/php.ini.erb"
+end
+
+package "php" do
+  action :install
+  not_if "rpm -q php"
+  options "--enablerepo=remi,remi-php56"
+  notifies :create, 'remote_file[/etc/php.ini]'
+end
+
 %w{
-  php
   php-gd
   php-pear
   php-mbstring
