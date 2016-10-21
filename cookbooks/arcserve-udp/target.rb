@@ -1,10 +1,7 @@
-# Install modules for Arcserve UDP Agent
+# Install modules for Target Node
 %w{
   perl
-  mkisofs
-  cifs-utils
-  mdadm
-  lvm2
+  nfs-utils
 }.each do |p|
   package p do
     action :install
