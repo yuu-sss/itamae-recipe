@@ -11,5 +11,5 @@ execute "loadkeys" do
   only_if "grep 'KEYTABLE=\"us\"' /etc/sysconfig/keyboard"
   user "root"
   command "loadkeys jp106"
-  notifies :create, resources( :remote_file => "/etc/sysconfig/keyboard" )
+  notifies :create, 'remote_file[/etc/sysconfig/keyboard]'
 end

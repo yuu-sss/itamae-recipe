@@ -16,7 +16,7 @@ user "create user" do
   home "/home/#{node['adduser']['username']}"
   password "#{node['adduser']['password']}"
   not_if "id #{node['adduser']['username']}" 
-  notifies :create, resources( :template => "/etc/sudoers" )
+  notifies :create, 'template[/etc/sudoers]'
 end
 
 directory "/home/#{node['adduser']['username']}/.ssh" do

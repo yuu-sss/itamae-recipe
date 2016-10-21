@@ -17,5 +17,5 @@ execute "localtime to JST" do
   user "root"
   command "cp -p /usr/share/zoneinfo/Japan /etc/localtime"
   notifies :restart, "service[rsyslog]"
-  notifies :create, resources( :remote_file => "/etc/sysconfig/clock" )
+  notifies :create, 'remote_file[/etc/sysconfig/clock]'
 end
