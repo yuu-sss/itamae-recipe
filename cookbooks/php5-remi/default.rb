@@ -1,6 +1,12 @@
 # Install PHP5.6 from REMI Repository
+if "#{node['info']['os']}" == "centos" && "#{node['info']['release']}" == "7" then
+  url = "http://rpms.famillecollet.com/enterprise/remi-release-7.rpm"
+else
+  url = "http://rpms.famillecollet.com/enterprise/remi-release-6.rpm"
+end
+
 execute "remi-repository" do
-  command "yum localinstall http://rpms.famillecollet.com/enterprise/remi-release-6.rpm -y"
+  command "yum localinstall #{url} -y"
   not_if "yum repolist all | grep remi"
 end
 
